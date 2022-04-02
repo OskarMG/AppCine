@@ -36,7 +36,7 @@ class MediaDetailRowView: UIView {
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         
-        icon.tintColor   = .systemYellow
+        icon.tintColor   = ACColor.orange
         icon.contentMode = .scaleAspectFit
         icon.translatesAutoresizingMaskIntoConstraints = false
         

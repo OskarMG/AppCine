@@ -9,12 +9,12 @@ import UIKit
 
 
 enum MediaType: Int, CaseIterable {
-    case movies = 0, tvShows
+    case movies = 0, series
     
     var name: String {
         switch self {
         case .movies: return "Movies"
-        case .tvShows: return "TV Shows"
+        case .series: return "Series"
         }
     }
 }

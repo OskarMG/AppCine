@@ -30,7 +30,7 @@ struct ACMedia: Codable, Equatable {
     init(id: Int, media: Media) {
         self.id          = id
         self.name        = media.name
-        self.type        = media.type == MediaType.movies.name ? .movies : .tvShows
+        self.type        = media.type == MediaType.movies.name ? .movies : .series
         self.title       = media.title
         self.overview    = media.overview
         self.genreIds    = []

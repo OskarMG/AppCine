@@ -14,8 +14,8 @@ class SearchVC: ACSearch {
     private var currentMovieTask:  URLSessionTask?
     private var currentTvShowTask: URLSessionTask?
     
-    private var movies  = [ACMedia]()
-    private var tvShows = [ACMedia]()
+    private var movies = [ACMedia]()
+    private var series = [ACMedia]()
     
     
     
@@ -76,13 +76,13 @@ class SearchVC: ACSearch {
         collectionView.dataSource = self
         
         collectionView.register(HeaderCollectionView.self, forSupplementaryViewOfKind: MediaType.movies.name, withReuseIdentifier:HeaderCollectionView.reuseId)
-        collectionView.register(HeaderCollectionView.self, forSupplementaryViewOfKind: MediaType.tvShows.name, withReuseIdentifier: HeaderCollectionView.reuseId)
+        collectionView.register(HeaderCollectionView.self, forSupplementaryViewOfKind: MediaType.series.name, withReuseIdentifier: HeaderCollectionView.reuseId)
         collectionView.register(ACMediaCollectionView.self, forCellWithReuseIdentifier: ACMediaCollectionView.reuseId)
     }
     
     private func createComponentLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (section, _) in
-            let isEmpty = section == 0 ? self.movies.isEmpty : self.tvShows.isEmpty
+            let isEmpty = section == 0 ? self.movies.isEmpty : self.series.isEmpty
             return UIHelper.createMediaSection(inSection: section, isEmpty: isEmpty)
         }
     }
@@ -125,7 +125,7 @@ class SearchVC: ACSearch {
     
     func searchByTvShowResponseHandler(result: Result<[ACMedia], Error>) {
         switch result {
-        case .success(let media): tvShows = setType(.tvShows, to: media).sorted { $0.voteAverage > $1.voteAverage }
+        case .success(let media): series = setType(.series, to: media).sorted { $0.voteAverage > $1.voteAverage }
         case .failure(let error): presentError(error)
         }
         reloadData()
@@ -160,21 +160,21 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? movies.count : tvShows.count
+        return section == 0 ? movies.count : series.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ACMediaCollectionView.reuseId, for: indexPath) as! ACMediaCollectionView
         cell.delegate = self
         if indexPath.section == 0 { if !movies.isEmpty { cell.setData(with: movies[indexPath.row]) } }
-        else { cell.setData(with: tvShows[indexPath.row]) }
+        else { cell.setData(with: series[indexPath.row]) }
 
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let media = indexPath.section == 0 ? movies[indexPath.row] : tvShows[indexPath.row]
+        let media = indexPath.section == 0 ? movies[indexPath.row] : series[indexPath.row]
         goToMediaDetail(media)
     }
     

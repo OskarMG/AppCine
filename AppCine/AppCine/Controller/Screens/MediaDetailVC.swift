@@ -110,7 +110,8 @@ class MediaDetailVC: UIViewController {
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubviews(topContainer, bookmarkFlag, scrollView)
+        view.addSubviews(topContainer, scrollView)
+        topContainer.addSubview(bookmarkFlag)
         scrollView.addSubview(contentView)
         contentView.addSubviews(overviewLabel, stackView)
         
@@ -120,18 +121,17 @@ class MediaDetailVC: UIViewController {
             topContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topContainer.heightAnchor.constraint(equalToConstant: 200),
             
+            bookmarkFlag.bottomAnchor.constraint(equalTo: topContainer.bottomAnchor, constant: -UIHelper.padding10),
+            bookmarkFlag.widthAnchor.constraint(equalToConstant:  25),
+            bookmarkFlag.heightAnchor.constraint(equalToConstant: 24),
+            bookmarkFlag.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -UIHelper.padding10),
+            
             poster.topAnchor.constraint(equalTo:      topContainer.topAnchor),
             poster.leadingAnchor.constraint(equalTo:  topContainer.leadingAnchor),
             poster.trailingAnchor.constraint(equalTo: topContainer.trailingAnchor),
             poster.heightAnchor.constraint(equalTo:   topContainer.heightAnchor),
             
-            
-            bookmarkFlag.topAnchor.constraint(equalTo: topContainer.bottomAnchor, constant: UIHelper.padding10),
-            bookmarkFlag.widthAnchor.constraint(equalToConstant:  25),
-            bookmarkFlag.heightAnchor.constraint(equalToConstant: 24),
-            bookmarkFlag.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -UIHelper.padding10),
-            
-            scrollView.topAnchor.constraint(equalTo:      bookmarkFlag.bottomAnchor, constant: UIHelper.padding10),
+            scrollView.topAnchor.constraint(equalTo:      topContainer.bottomAnchor, constant: 0),
             scrollView.leadingAnchor.constraint(equalTo:  view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo:   view.safeAreaLayoutGuide.bottomAnchor),
@@ -190,6 +190,7 @@ class MediaDetailVC: UIViewController {
             
             self.topContainer.addBlurBG(effect: .prominent, with: poster)
             self.poster.bringToFront()
+            self.bookmarkFlag.bringToFront()
             
             self.poster.image                 = poster
             self.overviewLabel.text           = overview

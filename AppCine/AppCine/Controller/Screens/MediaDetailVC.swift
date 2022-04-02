@@ -76,8 +76,6 @@ class MediaDetailVC: UIViewController {
         setupUI()
         unwrapMedia()
         configureVC()
-        
-        getVideos()
     }
     
     
@@ -241,9 +239,7 @@ class MediaDetailVC: UIViewController {
         if let videos = videos {
             for video in videos {
                 if let key = video.key, video.isOfficial {
-                    print("videos", key)
-                    print("url: ", Endpoints.video(key).url)
-                    //addPlayer(with: Endpoints.video(key).url)
+                    addPlayer(with: Endpoints.video(key).url)
                     break
                 }
             }
@@ -292,6 +288,8 @@ class MediaDetailVC: UIViewController {
 //MARK: - MediaDetail Video Player Methods
 extension MediaDetailVC {
     
+    
+    //MARK: - TODO
     func addPlayer(with url: URL) {
         let width = UIScreen.main.bounds.width
         let viewFrame = CGRect(origin: .zero, size: CGSize(width: width, height: 200))

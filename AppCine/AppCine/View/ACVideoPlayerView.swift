@@ -38,9 +38,6 @@ class ACVideoPlayerView: UIView {
     func play(with url: URL) {
         let player = AVPlayer(url: url)
         let playerLayer = AVPlayerLayer(player: player)
-
-        print("frame: ", frame)
-        
         DispatchQueue.main.async {
             self.layer.addSublayer(playerLayer)
             playerLayer.frame = self.bounds

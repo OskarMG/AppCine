@@ -33,6 +33,7 @@
 		22B97F5627F881C5002CEBBA /* TMDBVideoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B97F5527F881C5002CEBBA /* TMDBVideoResponse.swift */; };
 		22B97F5827F88251002CEBBA /* ACVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B97F5727F88251002CEBBA /* ACVideo.swift */; };
 		22B97F5A27F89A94002CEBBA /* ACVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B97F5927F89A94002CEBBA /* ACVideoPlayerView.swift */; };
+		22B97F5C27F8C09F002CEBBA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 22B97F5B27F8C09F002CEBBA /* README.md */; };
 		22F7366527F5D81F000B616D /* MediaDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F7366427F5D81F000B616D /* MediaDetailVC.swift */; };
 		22F7366727F5D92E000B616D /* BookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F7366627F5D92E000B616D /* BookmarkTableViewCell.swift */; };
 		22F7366A27F60546000B616D /* RateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F7366927F60546000B616D /* RateLabel.swift */; };
@@ -93,6 +94,7 @@
 		22B97F5527F881C5002CEBBA /* TMDBVideoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBVideoResponse.swift; sourceTree = "<group>"; };
 		22B97F5727F88251002CEBBA /* ACVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACVideo.swift; sourceTree = "<group>"; };
 		22B97F5927F89A94002CEBBA /* ACVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACVideoPlayerView.swift; sourceTree = "<group>"; };
+		22B97F5B27F8C09F002CEBBA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		22F7366427F5D81F000B616D /* MediaDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailVC.swift; sourceTree = "<group>"; };
 		22F7366627F5D92E000B616D /* BookmarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewCell.swift; sourceTree = "<group>"; };
 		22F7366927F60546000B616D /* RateLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateLabel.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		2261345127F0C6010050AF34 = {
 			isa = PBXGroup;
 			children = (
+				22B97F5B27F8C09F002CEBBA /* README.md */,
 				2261345C27F0C6010050AF34 /* AppCine */,
 				2261347327F0C6030050AF34 /* AppCineTests */,
 				2261347D27F0C6030050AF34 /* AppCineUITests */,
@@ -408,6 +411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22B97F5C27F8C09F002CEBBA /* README.md in Resources */,
 				2261346A27F0C6030050AF34 /* LaunchScreen.storyboard in Resources */,
 				2261346727F0C6030050AF34 /* Assets.xcassets in Resources */,
 			);

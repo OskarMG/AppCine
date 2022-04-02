@@ -68,6 +68,17 @@ class TMDBClient {
     }
     
     
+    func getVideos(for type: MediaType, with id: String, completion: @escaping([ACVideo]?)->Void) {
+        let url = type == .movies ? Endpoints.getMovieVideos(id).url : Endpoints.getSerieVideos(id).url
+        let _ = taskForGetRequest(url: url, responseType: TMDBVideoResponse.self) {[weak self] response, error in
+            guard let _ = self else { completion(nil); return }
+            if let videos = response?.results, !videos.isEmpty {
+                DispatchQueue.main.async { completion(videos) }
+            } else { DispatchQueue.main.async { completion(nil) } }
+        }
+    }
+    
+    
     func downloadPosterImage(path: String, completion: @escaping(UIImage?)->Void) {
         let cacheKey = NSString(string: path)
         if let image = TMDBClient.shared.cache.object(forKey: cacheKey) {

@@ -30,6 +30,9 @@
 		226134BA27F2288E0050AF34 /* PersistentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226134B927F2288E0050AF34 /* PersistentManager.swift */; };
 		226134BD27F229580050AF34 /* AppCine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 226134BB27F229580050AF34 /* AppCine.xcdatamodeld */; };
 		226134C727F39F4E0050AF34 /* BookmarkVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226134C627F39F4E0050AF34 /* BookmarkVC.swift */; };
+		22B97F5627F881C5002CEBBA /* TMDBVideoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B97F5527F881C5002CEBBA /* TMDBVideoResponse.swift */; };
+		22B97F5827F88251002CEBBA /* ACVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B97F5727F88251002CEBBA /* ACVideo.swift */; };
+		22B97F5A27F89A94002CEBBA /* ACVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B97F5927F89A94002CEBBA /* ACVideoPlayerView.swift */; };
 		22F7366527F5D81F000B616D /* MediaDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F7366427F5D81F000B616D /* MediaDetailVC.swift */; };
 		22F7366727F5D92E000B616D /* BookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F7366627F5D92E000B616D /* BookmarkTableViewCell.swift */; };
 		22F7366A27F60546000B616D /* RateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F7366927F60546000B616D /* RateLabel.swift */; };
@@ -87,6 +90,9 @@
 		226134B927F2288E0050AF34 /* PersistentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentManager.swift; sourceTree = "<group>"; };
 		226134BC27F229580050AF34 /* AppCine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppCine.xcdatamodel; sourceTree = "<group>"; };
 		226134C627F39F4E0050AF34 /* BookmarkVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkVC.swift; sourceTree = "<group>"; };
+		22B97F5527F881C5002CEBBA /* TMDBVideoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBVideoResponse.swift; sourceTree = "<group>"; };
+		22B97F5727F88251002CEBBA /* ACVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACVideo.swift; sourceTree = "<group>"; };
+		22B97F5927F89A94002CEBBA /* ACVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACVideoPlayerView.swift; sourceTree = "<group>"; };
 		22F7366427F5D81F000B616D /* MediaDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailVC.swift; sourceTree = "<group>"; };
 		22F7366627F5D92E000B616D /* BookmarkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTableViewCell.swift; sourceTree = "<group>"; };
 		22F7366927F60546000B616D /* RateLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateLabel.swift; sourceTree = "<group>"; };
@@ -202,6 +208,7 @@
 			children = (
 				226134B227F163400050AF34 /* HeaderCollectionView.swift */,
 				22F7367327F67D57000B616D /* MediaDetailRowView.swift */,
+				22B97F5927F89A94002CEBBA /* ACVideoPlayerView.swift */,
 				22F7367227F677EC000B616D /* Custom Button */,
 				22F7367127F677DA000B616D /* Custom Labels */,
 				226134B427F163AB0050AF34 /* Custom Cells */,
@@ -232,8 +239,10 @@
 		2261349E27F1023B0050AF34 /* TMDBResponses */ = {
 			isa = PBXGroup;
 			children = (
+				22B97F5727F88251002CEBBA /* ACVideo.swift */,
 				226134B527F167870050AF34 /* ACMedia.swift */,
 				2261349F27F1029E0050AF34 /* TMDBResponse.swift */,
+				22B97F5527F881C5002CEBBA /* TMDBVideoResponse.swift */,
 			);
 			path = TMDBResponses;
 			sourceTree = "<group>";
@@ -427,16 +436,19 @@
 			files = (
 				226134B627F167870050AF34 /* ACMedia.swift in Sources */,
 				226134A027F1029E0050AF34 /* TMDBResponse.swift in Sources */,
+				22B97F5A27F89A94002CEBBA /* ACVideoPlayerView.swift in Sources */,
 				2261349D27F0CF7C0050AF34 /* TMDBClient.swift in Sources */,
 				2261349927F0CAD60050AF34 /* ACSearch.swift in Sources */,
 				2261349527F0C8C60050AF34 /* SearchVC.swift in Sources */,
 				226134B327F163400050AF34 /* HeaderCollectionView.swift in Sources */,
+				22B97F5627F881C5002CEBBA /* TMDBVideoResponse.swift in Sources */,
 				226134B827F16AF20050AF34 /* ACMediaCollectionView.swift in Sources */,
 				226134BD27F229580050AF34 /* AppCine.xcdatamodeld in Sources */,
 				22F7366C27F66626000B616D /* KeyboardToolbar.swift in Sources */,
 				2261345E27F0C6010050AF34 /* AppDelegate.swift in Sources */,
 				22F7367D27F74E3C000B616D /* Endpoints.swift in Sources */,
 				226134C727F39F4E0050AF34 /* BookmarkVC.swift in Sources */,
+				22B97F5827F88251002CEBBA /* ACVideo.swift in Sources */,
 				22F7367427F67D57000B616D /* MediaDetailRowView.swift in Sources */,
 				22F7366A27F60546000B616D /* RateLabel.swift in Sources */,
 				2261349B27F0CCBD0050AF34 /* Constants.swift in Sources */,

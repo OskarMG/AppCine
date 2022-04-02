@@ -17,6 +17,11 @@ enum MediaType: Int, CaseIterable {
         case .series: return "Series"
         }
     }
+    
+    init?(name: String) {
+        if name == "Movies" { self = .movies } else
+        { self = .series }
+    }
 }
 
 

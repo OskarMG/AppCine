@@ -19,7 +19,10 @@ enum Endpoints {
     case popularMovies
     case popularTvShows
     case posterImageUrl(String)
-    case youtube(String)
+    
+    case getMovieVideos(String)
+    case getSerieVideos(String)
+    case video(String)
     
     private var strValue: String {
         switch self {
@@ -28,7 +31,9 @@ enum Endpoints {
         case .popularMovies:  return Endpoints.base + "/movie/popular" + Endpoints.apiKeyParam
         case .popularTvShows: return Endpoints.base + "/tv/popular" + Endpoints.apiKeyParam
         case .posterImageUrl(let path): return "https://image.tmdb.org/t/p/w500" + path
-        case .youtube(let path): return "https://www.youtube.com/watch?v=\(path)"
+        case .getMovieVideos(let id): return Endpoints.base + "/movie/\(id)/videos" + Endpoints.apiKeyParam
+        case .getSerieVideos(let id): return Endpoints.base + "/tv/\(id)/videos" + Endpoints.apiKeyParam
+        case .video(let path): return "https://www.youtube.com/watch?v=\(path)"
         }
     }
     

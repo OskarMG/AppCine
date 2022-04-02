@@ -27,28 +27,42 @@ extension UIViewController {
             }
         }
     }
+    
+    func bringToFrontLoadingView() {
+        DispatchQueue.main.async { containerView?.bringToFront() }
+    }
 
     func showLoading(in view: UIView, backgroundAlpha: Double = 0.8) {
         guard containerView == nil else { return }
-        containerView = UIView(frame: view.bounds)
-        view.addSubview(containerView)
-        containerView.bringToFront()
+        containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         
-        containerView.backgroundColor   = .systemBackground
-        containerView.alpha             = 0
-        
-        UIView.animate(withDuration: 0.25) { containerView.alpha = backgroundAlpha }
-        
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        containerView.addSubview(activityIndicator)
-        
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            activityIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
-        ])
-        
-        activityIndicator.startAnimating()
+        DispatchQueue.main.async {
+            view.addSubview(containerView)
+            containerView.bringToFront()
+            
+            containerView.backgroundColor   = .systemBackground.withAlphaComponent(0)
+            
+            UIView.animate(withDuration: 0.25) {
+                containerView.backgroundColor = .systemBackground.withAlphaComponent(backgroundAlpha)
+            }
+            
+            let activityIndicator = UIActivityIndicatorView(style: .large)
+            containerView.addSubview(activityIndicator)
+            
+            activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                containerView.topAnchor.constraint(equalTo:      view.topAnchor),
+                containerView.leadingAnchor.constraint(equalTo:  view.leadingAnchor),
+                containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                containerView.bottomAnchor.constraint(equalTo:   view.bottomAnchor),
+                
+                activityIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+                activityIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+            ])
+            
+            activityIndicator.startAnimating()
+        }
     }
     
     

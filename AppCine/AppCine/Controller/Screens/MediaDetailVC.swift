@@ -68,7 +68,7 @@ class MediaDetailVC: UIViewController {
     private let langRowView  = MediaDetailRowView(icon: ACImage.language,    label: ACLabel.language)
     
     private var stackView: UIStackView!
-    
+    private var playerView: ACVideoPlayerView!
     
     //MARK: - View LifeCycle
     override func viewDidLoad() {
@@ -76,6 +76,8 @@ class MediaDetailVC: UIViewController {
         setupUI()
         unwrapMedia()
         configureVC()
+        
+        getVideos()
     }
     
     
@@ -234,6 +236,31 @@ class MediaDetailVC: UIViewController {
     }
     
     
+    private func getVideoHandleResponse(videos: [ACVideo]?) {
+        dismissLoadingView()
+        if let videos = videos {
+            for video in videos {
+                if let key = video.key, video.isOfficial {
+                    print("videos", key)
+                    print("url: ", Endpoints.video(key).url)
+                    //addPlayer(with: Endpoints.video(key).url)
+                    break
+                }
+            }
+        }
+    }
+    
+    
+    //MARK: - Network calls
+    private func getVideos() {
+        showLoading(in: topContainer, backgroundAlpha: 0)
+        switch mediaState {
+        case .stored(_): TMDBClient.shared.getVideos(for: convenienceMedia.type,  with: mediaId, completion: getVideoHandleResponse)
+        case .online(let aCMedia): TMDBClient.shared.getVideos(for: aCMedia.type, with: mediaId, completion: getVideoHandleResponse)
+        }
+    }
+    
+    
     //MARK: - CoreData Methods
     private func existingMedia(_ id: String) -> Bool {
         if let _ = PersistentManager.shared.getMediaBy(id: "\(id)") { return true }
@@ -257,4 +284,26 @@ class MediaDetailVC: UIViewController {
             }
         }
     }
+}
+
+
+
+
+//MARK: - MediaDetail Video Player Methods
+extension MediaDetailVC {
+    
+    func addPlayer(with url: URL) {
+        let width = UIScreen.main.bounds.width
+        let viewFrame = CGRect(origin: .zero, size: CGSize(width: width, height: 200))
+        playerView = ACVideoPlayerView(frame: viewFrame)
+        DispatchQueue.main.async {
+            self.topContainer.addSubview(self.playerView)
+            self.playerView.play(with: url)
+            
+            
+            self.bringToFrontLoadingView()
+            self.bookmarkFlag.bringToFront()
+        }
+    }
+    
 }

@@ -23,6 +23,7 @@ class TMDBClient {
     }
     
     private func taskForGetRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping(ResponseType?, Error?)->Void) -> URLSessionTask {
+        
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error { completion(nil, error); return }
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -41,40 +42,58 @@ class TMDBClient {
     }
     
     
-    func searchBy(movie query: String, completion: @escaping(Result<[ACMedia], Error>)->Void) -> URLSessionTask {
-        return taskForGetRequest(url: Endpoints.searchByMovie(query).url, responseType: TMDBResponse<ACMedia>.self) {[weak self] response, error in
-            guard let _ = self else { return }
-            if let error = error { DispatchQueue.main.async { completion(.failure(error)) }; return }
-            DispatchQueue.main.async { completion(.success(response!.results)) }
+    func searchBy(movie query: String, completion: @escaping(Result<[ACMedia], Error>)->Void) -> URLSessionTask? {
+        if let url = Endpoints.searchByMovie(query).url {
+            return taskForGetRequest(url: url, responseType: TMDBResponse<ACMedia>.self) {[weak self] response, error in
+                guard let _ = self else { return }
+                if let error = error { DispatchQueue.main.async { completion(.failure(error)) }; return }
+                DispatchQueue.main.async { completion(.success(response!.results)) }
+            }
+        } else {
+            DispatchQueue.main.async{ completion(.failure(ACError.invalidadUrl)) }
+            return nil
         }
     }
     
     
-    func searchBy(tvShow query: String, completion: @escaping(Result<[ACMedia], Error>)->Void) -> URLSessionTask {
-        return taskForGetRequest(url: Endpoints.searchByTvShow(query).url, responseType: TMDBResponse<ACMedia>.self) {[weak self] response, error in
-            guard let _ = self else { return }
-            if let error = error { DispatchQueue.main.async { completion(.failure(error)) }; return }
-            DispatchQueue.main.async { completion(.success(response!.results)) }
+    func searchBy(tvShow query: String, completion: @escaping(Result<[ACMedia], Error>)->Void) -> URLSessionTask? {
+        if let url = Endpoints.searchByTvShow(query).url {
+            return taskForGetRequest(url: url, responseType: TMDBResponse<ACMedia>.self) {[weak self] response, error in
+                guard let _ = self else { return }
+                if let error = error { DispatchQueue.main.async { completion(.failure(error)) }; return }
+                DispatchQueue.main.async { completion(.success(response!.results)) }
+            }
+        } else {
+            DispatchQueue.main.async{ completion(.failure(ACError.invalidadUrl)) }
+            return nil
         }
+        
     }
     
     
-    func getPopularsMedia(url: URL, completion: @escaping(Result<[ACMedia], Error>)->Void) -> URLSessionTask {
-        return taskForGetRequest(url: url, responseType: TMDBResponse<ACMedia>.self) {[weak self] response, error in
-            guard let _ = self else { return }
-            if let error = error { DispatchQueue.main.async { completion(.failure(error)) }; return }
-            DispatchQueue.main.async { completion(.success(response!.results)) }
+    func getPopularsMedia(url: URL?, completion: @escaping(Result<[ACMedia], Error>)->Void) -> URLSessionTask? {
+        if let url = url {
+            return taskForGetRequest(url: url, responseType: TMDBResponse<ACMedia>.self) {[weak self] response, error in
+                guard let _ = self else { return }
+                if let error = error { DispatchQueue.main.async { completion(.failure(error)) }; return }
+                DispatchQueue.main.async { completion(.success(response!.results)) }
+            }
+        } else {
+            DispatchQueue.main.async{ completion(.failure(ACError.invalidadUrl)) }
+            return nil
         }
     }
     
     
     func getVideos(for type: MediaType, with id: String, completion: @escaping([ACVideo]?)->Void) {
-        let url = type == .movies ? Endpoints.getMovieVideos(id).url : Endpoints.getSerieVideos(id).url
-        let _ = taskForGetRequest(url: url, responseType: TMDBVideoResponse.self) {[weak self] response, error in
-            guard let _ = self else { completion(nil); return }
-            if let videos = response?.results, !videos.isEmpty {
-                DispatchQueue.main.async { completion(videos) }
-            } else { DispatchQueue.main.async { completion(nil) } }
+        let mediaUrl = type == .movies ? Endpoints.getMovieVideos(id).url : Endpoints.getSerieVideos(id).url
+        if let url = mediaUrl {
+            let _ = taskForGetRequest(url: url, responseType: TMDBVideoResponse.self) {[weak self] response, error in
+                guard let _ = self else { completion(nil); return }
+                if let videos = response?.results, !videos.isEmpty {
+                    DispatchQueue.main.async { completion(videos) }
+                } else { DispatchQueue.main.async { completion(nil) } }
+            }
         }
     }
     
@@ -85,21 +104,23 @@ class TMDBClient {
             DispatchQueue.main.async { completion(image) }; return
         }
         
-        URLSession.shared.dataTask(with: Endpoints.posterImageUrl(path).url) {[weak self] data, response, error in
-            guard let _ = self else { return }
-            guard error == nil,
-              let response = response as? HTTPURLResponse,
-              response.statusCode == 200, let data = data else {
-                  DispatchQueue.main.async { completion(nil) }; return
-              }
-            
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data) {
-                    TMDBClient.shared.cache.setObject(image, forKey: cacheKey)
-                    completion(image)
-                } else { completion(nil) }
-            }
-        }.resume()
+        if let url = Endpoints.posterImageUrl(path).url {
+            URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
+                guard let _ = self else { return }
+                guard error == nil,
+                  let response = response as? HTTPURLResponse,
+                  response.statusCode == 200, let data = data else {
+                      DispatchQueue.main.async { completion(nil) }; return
+                  }
+                
+                DispatchQueue.main.async {
+                    if let image = UIImage(data: data) {
+                        TMDBClient.shared.cache.setObject(image, forKey: cacheKey)
+                        completion(image)
+                    } else { completion(nil) }
+                }
+            }.resume()
+        } else { DispatchQueue.main.async { completion(nil) } }
     }
     
 }

@@ -90,7 +90,7 @@ class SearchVC: ACSearch {
     @objc private func getPopularMedia() {
         refreshBtn.isEnabled = false
         showLoading(in: view)
-        currentMovieTask  = TMDBClient.shared.getPopularsMedia(url: Endpoints.popularMovies.url , completion: searchByMovieResponseHandler)
+        currentMovieTask  = TMDBClient.shared.getPopularsMedia(url: Endpoints.popularMovies.url,  completion: searchByMovieResponseHandler)
         currentTvShowTask = TMDBClient.shared.getPopularsMedia(url: Endpoints.popularTvShows.url, completion: searchByTvShowResponseHandler)
     }
     

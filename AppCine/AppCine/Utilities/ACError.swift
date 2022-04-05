@@ -12,5 +12,6 @@ enum ACError: String, Error {
     
     case invalidData     = "Data received from the server was invalid. Please try again."
     case invalidResponse = "Invalid response from the server. Please try again."
+    case invalidadUrl    = "Invalid URL, contact development team."
     
 }

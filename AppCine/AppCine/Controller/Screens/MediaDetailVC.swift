@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import youtube_ios_player_helper
 
 class MediaDetailVC: UIViewController {
     
@@ -39,7 +40,7 @@ class MediaDetailVC: UIViewController {
         return imageView
     }()
     
-    private let bookmarkFlag = BookmarkFlagButton(frame: .zero)
+    private var bookmarkFlag: UIBarButtonItem!
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: .zero)
@@ -67,15 +68,16 @@ class MediaDetailVC: UIViewController {
     private let dateRowView  = MediaDetailRowView(icon: ACImage.calendar,    label: ACLabel.date)
     private let langRowView  = MediaDetailRowView(icon: ACImage.language,    label: ACLabel.language)
     
-    private var stackView: UIStackView!
-    private var playerView: ACVideoPlayerView!
+    private var stackView:  UIStackView!
+    private var playerView: YTPlayerView!
     
     //MARK: - View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureVC()
         setupUI()
         unwrapMedia()
-        configureVC()
+        getVideos()
     }
     
     
@@ -93,7 +95,8 @@ class MediaDetailVC: UIViewController {
 
     //MARK: - Private Methods
     private func configureVC() {
-        bookmarkFlag.addTarget(self, action: #selector(onBookmarkTap), for: .touchUpInside)
+        bookmarkFlag = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(onBookmarkTap))
+        navigationItem.rightBarButtonItems = [bookmarkFlag]
     }
     
     private func setupUI() {
@@ -111,7 +114,6 @@ class MediaDetailVC: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubviews(topContainer, scrollView)
-        topContainer.addSubview(bookmarkFlag)
         scrollView.addSubview(contentView)
         contentView.addSubviews(overviewLabel, stackView)
         
@@ -120,11 +122,6 @@ class MediaDetailVC: UIViewController {
             topContainer.leadingAnchor.constraint(equalTo:  view.leadingAnchor),
             topContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topContainer.heightAnchor.constraint(equalToConstant: 200),
-            
-            bookmarkFlag.bottomAnchor.constraint(equalTo: topContainer.bottomAnchor, constant: -UIHelper.padding10),
-            bookmarkFlag.widthAnchor.constraint(equalToConstant:  25),
-            bookmarkFlag.heightAnchor.constraint(equalToConstant: 24),
-            bookmarkFlag.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -UIHelper.padding10),
             
             poster.topAnchor.constraint(equalTo:      topContainer.topAnchor),
             poster.leadingAnchor.constraint(equalTo:  topContainer.leadingAnchor),
@@ -149,8 +146,7 @@ class MediaDetailVC: UIViewController {
     
     private func updateBookmarkFlag(_ flag: Bool) {
         DispatchQueue.main.async {
-            let image = flag ? ACImage.bookmarkFilled : ACImage.bookmark
-            self.bookmarkFlag.setBackgroundImage(image, for: .normal)
+            self.bookmarkFlag.image = flag ? ACImage.bookmarkFilled : ACImage.bookmark
         }
     }
     
@@ -190,7 +186,6 @@ class MediaDetailVC: UIViewController {
             
             self.topContainer.addBlurBG(effect: .prominent, with: poster)
             self.poster.bringToFront()
-            self.bookmarkFlag.bringToFront()
             
             self.poster.image                 = poster
             self.overviewLabel.text           = overview
@@ -239,7 +234,7 @@ class MediaDetailVC: UIViewController {
         if let videos = videos {
             for video in videos {
                 if let key = video.key, video.isOfficial {
-                    addPlayer(with: Endpoints.video(key).url)
+                    addPlayer(with: key)
                     break
                 }
             }
@@ -286,22 +281,21 @@ class MediaDetailVC: UIViewController {
 
 
 //MARK: - MediaDetail Video Player Methods
-extension MediaDetailVC {
+extension MediaDetailVC: YTPlayerViewDelegate {
     
-    
-    //MARK: - TODO
-    func addPlayer(with url: URL) {
+    func addPlayer(with key: String) {
         let width = UIScreen.main.bounds.width
         let viewFrame = CGRect(origin: .zero, size: CGSize(width: width, height: 200))
-        playerView = ACVideoPlayerView(frame: viewFrame)
+        playerView = YTPlayerView(frame: viewFrame)
+        playerView.delegate = self
         DispatchQueue.main.async {
             self.topContainer.addSubview(self.playerView)
-            self.playerView.play(with: url)
-            
-            
+            self.playerView.load(withVideoId: key)
+            self.playerView.playVideo()
+            self.playerView.bringToFront()
             self.bringToFrontLoadingView()
-            self.bookmarkFlag.bringToFront()
         }
     }
+    
     
 }

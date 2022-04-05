@@ -37,5 +37,5 @@ enum Endpoints {
         }
     }
     
-    var url: URL { return URL(string: strValue)! }
+    var url: URL? { return URL(string: strValue) }
 }

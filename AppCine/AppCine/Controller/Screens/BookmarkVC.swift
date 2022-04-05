@@ -152,7 +152,6 @@ extension BookmarkVC: BookmarkFlagProtocol {
                     } else { self.filteredSeries.remove(at: indexPath.row) }
                     DispatchQueue.main.async { self.tableView.deleteRows(at: [indexPath], with: .fade) }
                 }
-            
             }
         }
     }
